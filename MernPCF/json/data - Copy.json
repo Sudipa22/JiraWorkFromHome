@@ -1,0 +1,145 @@
+{
+  "config": {
+    "name": "Blueprint for open source stack",
+    "version": "v1.0",
+    "category": "App Stack",
+    "description": "Opensource Blueprint for configuring open source tools with polycloud . Recomended for MEAN App Stack",
+    "email": "digital.rig@wipro.com",
+    "tools": "Configure"
+  },
+  "riglet_info": {
+    "name": "Tycoon_1269",
+    "auth_users": "keerthi"
+  },
+  "precommit": {
+    "commit_rule": {
+      "msg_pattern": "rig-[0-9]{6}",
+      "error_msg": "commit msg should be rig-xxxxxx"
+    },
+    "commit_scripts": [
+      "testScripts.sh"
+    ]
+  },
+  "alm": {
+    "tool": {
+      "name": "jira"
+    },
+    "projects": {
+      "project": [
+        {
+          "create": true,
+          "project_name": "Tycoon_3820",
+          "project_typeKey": "software",
+          "project_lead": "rig"
+        }
+      ]
+    }
+  },
+  "scm": {
+    "tool": {
+      "name": "github"
+    },
+    "repositories": {
+      "repository": [
+        {
+          "create": true,
+          "repo_name": "Tycoon_1269",
+          "branches": {
+            "startPoint": "refs/heads",
+            "branch": [
+              {
+                "create": true,
+                "name": "dev"
+              },
+              {
+                "create": true,
+                "name": "qa"
+              },
+              {
+                "create": true,
+                "name": "prod"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "code_quality": {
+    "tool": {
+      "name": "sonar"
+    },
+    "projects": {
+      "project": [
+        {
+          "create": true,
+          "project_name": "Tycoon_1269",
+          "quality_gate": [
+            {
+              "create": true,
+              "gate_name": "Tycoon_1269",
+              "metrics": [
+                {
+                  "metric": "blocker_violations",
+                  "operator": "GT",
+                  "warning": 5,
+                  "error": 10
+                },
+                {
+                  "metric": "critical_violations",
+                  "operator": "GT",
+                  "warning": 5,
+                  "error": 10
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "ci": {
+    "tool": {
+      "name": "jenkins"
+    },
+    "jobs": {
+      "job": [
+        {
+          "create": true,
+          "type": "DSL",
+          "job_name": "Tycoon_293", 
+          "dsl_fileName": "ossDsl.txt",
+          "pipeline_fileName": "ossPipeline.txt"
+        }
+      ]
+    }
+  },
+  "brm": {
+    "tool": {
+      "name": "nexus"
+    },
+    "repositories": {
+      "repository": [
+        {
+          "create": true,
+          "repository_name": "Tycoon_1269",
+          "repository_type": "proxy",
+          "repository_policy": "RELEASE",
+          "repository_provider": "maven2"
+        }
+      ]
+    }
+  },
+  "environments": [
+    {
+      "environment": {
+        "tool": {
+          "name": "azure"
+        },
+        "deploy": {
+          "create": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "blueprint_info": {
+    "name": "oss",
+    "version": "v1.0",
+    "category": "App Stack",
+    "description": "Ready to use End-to-end workflow using Open source tool stack for Continuous delivery including application release automation, repo management & containerized infrastructure management with real time dashboard",
+    "email": "digital.rig@wipro.com",
+    "type": "Configure"
+  },
+  "riglet_info": {
+    "name": "EDN0202",
+    "auth_users": "threkashri.p35@wipro.com"
+  },
+  "precommit": {
+    "commit_rule": {
+      "msg_pattern": "rig-[0-9]{6}",
+      "error_msg": "rig-xxxxxxxx"
+    },
+    "commit_scripts": [
+      "testScripts.sh"
+    ]
+  },
+  "alm": {
+    "tool": {
+      "name": "jira"
+    },
+    "projects": {
+      "project": [
+        {
+          "create": true,
+          "project_name": "EDN0202",
+          "project_typeKey": "software",
+          "project_lead": "rig"
+        }
+      ]
+    }
+  },
+  "scm": {
+    "tool": {
+      "name": "github"
+    },
+    "repositories": {
+      "repository": [
+        {
+          "create": true,
+          "repo_name": "EDN0202",
+          "branches": {
+            "startPoint": "refs/heads",
+            "branch": [
+              {
+                "create": true,
+                "name": "dev"
+              },
+              {
+                "create": true,
+                "name": "qa"
+              },
+              {
+                "create": true,
+                "name": "prod"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "code_quality": {
+    "tool": {
+      "name": "sonar"
+    },
+    "projects": {
+      "project": [
+        {
+          "create": true,
+          "project_name": "EDN0202",
+          "quality_gate": [
+            {
+              "create": true,
+              "gate_name": "EDN0202",
+              "metrics": [
+                {
+                  "metric": "blocker_violations",
+                  "operator": "GT",
+                  "warning": 5,
+                  "error": 10
+                },
+                {
+                  "metric": "critical_violations",
+                  "operator": "GT",
+                  "warning": 5,
+                  "error": 10
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "brm": {
+    "tool": {
+      "name": "nexus"
+    },
+    "repositories": {
+      "repository": [
+        {
+          "create": true,
+          "repository_name": "EDN0202",
+          "repository_type": "proxy",
+          "repository_policy": "RELEASE",
+          "repository_provider": "maven2"
+        }
+      ]
+    }
+  },
+  "ci": {
+    "tool": {
+      "name": "jenkins"
+    },
+    "jobs": {
+      "job": [
+        {
+          "create": true,
+          "type": "DSL",
+          "job_name": "EDN0202",
+          "dsl_fileName": "ossDsl.txt",
+          "pipeline_fileName": "ossPipeline.txt"
+        }
+      ]
+    }
+  },
+  "environments": [
+    {
+      "environment": {
+        "tool": {
+          "name": "pcf"
+        },
+        "org": {
+          "name": "My-Pcf-training"
+        },
+        "space": [
+          {
+            "space_name": "development",
+            "application": {
+              "application_name": "product"
+            },
+            "route": {
+              "route_name": "product-wipro-rig"
+            },
+            "service": {
+              "service_name": "myservice",
+              "service_type": "cleardb",
+              "service_specification": "spark"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "quick_links": [
+    {
+      "tag": "EDN0202",
+      "url": "EDN0202"
+    }
+  ]
+}
